@@ -1,14 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <center>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Demo</title>
     <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
         #counter {
             font-size: 524px;
             margin-bottom: 10px;
         }
-        body {
-            text-align: center;
+        #settingsMenu {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
         }
     </style>
 </head>
@@ -16,180 +30,120 @@
     <div id="counter">0</div>
     <button id="clickbutton">Click me</button>
 
+    <div id="settingsMenu">
+        <h2>Dev Demo</h2>
+        <label for="amountInput">Set Increment Amount:</label>
+        <input type="number" id="amountInput" placeholder="Enter amount">
+        <button id="closeButton">Close</button>
+    </div>
+
+    <p>Name</p>
+    <input type="text" id="inputWord" placeholder="">
+    <button onclick="checkWord()">Submit</button>
+
     <script>
         var counterElement = document.getElementById("counter");
         var button = document.getElementById("clickbutton");
         var count = 0;
+        var incrementAmount = 1;
 
         function incrementCounter() {
-            count++;
+            count += incrementAmount;
             counterElement.textContent = count;
         }
 
         button.addEventListener("click", incrementCounter);
+
+        function checkWord() {
+            var inputElement = document.getElementById("inputWord");
+            var inputValue = inputElement.value.trim().toLowerCase();
+
+            var specificWord = "hehehe";
+            var devWord = "qwertydev";
+            var link = "quickclickergame.html";
+
+            if (inputValue === specificWord) {
+                window.location.href = link;
+            } else if (inputValue === devWord) {
+                document.getElementById("settingsMenu").style.display = 'block';
+            }
+        }
+
+        function setIncrementAmount() {
+            var amountInput = document.getElementById("amountInput");
+            var newAmount = parseInt(amountInput.value, 10);
+            if (!isNaN(newAmount)) {
+                incrementAmount = newAmount;
+            }
+        }
+
+        const amountInput = document.getElementById("amountInput");
+        amountInput.addEventListener("change", setIncrementAmount);
+
+        const closeButton = document.getElementById('closeButton');
+        closeButton.addEventListener('click', function() {
+            document.getElementById("settingsMenu").style.display = 'none';
+        });
     </script>
-    
-    </head>
-    <body>
-    <p>Name</p>
-    <input type="text" id="inputWord" placeholder="">
-    <button onclick="checkWord()">Submit</button>
-    
+
+    <h1>This is a quote to waste your time. Now get back to clicking!</h1>
+    <button id="settingsButton">Settings</button>
+
+    <div id="colorSettingsMenu" style="display: none; position: absolute; top: 10px; left: 10px; background-color: #fff; border: 1px solid #ccc; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000;">
+        <button id="buttonRed" onclick="changeColor('red')">Red</button>
+        <button id="buttonGreen" onclick="changeColor('green')">Green</button>
+        <button id="buttonBlue" onclick="changeColor('blue')">Blue</button>
+        <button id="buttonYellow" onclick="changeColor('yellow')">Yellow</button>
+        <button id="buttonMagenta" onclick="changeColor('magenta')">Magenta</button>
+        <button id="buttonCyan" onclick="changeColor('cyan')">Cyan</button>
+        <button id="buttonOrange" onclick="changeColor('orange')">Orange</button>
+        <button id="buttonPurple" onclick="changeColor('purple')">Purple</button>
+        <button id="buttonLime" onclick="changeColor('lime')">Lime</button>
+        <button id="buttonNavy" onclick="changeColor('navy')">Navy</button>
+        <button id="buttonWhite" onclick="changeColor('white')">White</button>
+        <button id="buttonGray" onclick="changeColor('gray')">Gray</button>
+        <button id="refreshButton" onclick="refreshPage()">Reset</button>
+        <button id="colorCloseButton">Close</button>
+    </div>
+
     <script>
-    function checkWord() {
-      // Get the input element value
-      var inputElement = document.getElementById("inputWord");
-      var inputValue = inputElement.value.trim().toLowerCase(); // Trim whitespace and convert to lowercase for case insensitivity
-    
-      // Define the specific word and link
-      var specificWord = "hehehe"; // Change this to your specific word
-      var link = "quickclickergame.html"; // Change this to your desired link
-    
-      // Check if the input value matches the specific word
-      if (inputValue === specificWord) {
-        // Redirect to the specified link
-        window.location.href = link;
-      } else {
-        // Display the input word
-       
-      }
-    }
+        function changeColor(colorName) {
+            var colors = {
+                'red': '#ff0000',
+                'green': '#00ff00',
+                'blue': '#0000ff',
+                'yellow': '#ffff00',
+                'magenta': '#ff00ff',
+                'cyan': '#00ffff',
+                'orange': '#ffa500',
+                'purple': '#800080',
+                'lime': '#00ff00',
+                'navy': '#000080',
+                'white': '#ffffff',
+                'gray': '#808080'
+            };
+            document.body.style.backgroundColor = colors[colorName];
+        }
+
+        function refreshPage() {
+            location.reload();
+        }
+
+        const settingsButton = document.getElementById('settingsButton');
+        const colorSettingsMenu = document.getElementById('colorSettingsMenu');
+        const colorCloseButton = document.getElementById('colorCloseButton');
+
+        function toggleColorSettingsMenu() {
+            colorSettingsMenu.style.display = colorSettingsMenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closeColorSettingsMenu() {
+            colorSettingsMenu.style.display = 'none';
+        }
+
+        settingsButton.addEventListener('click', toggleColorSettingsMenu);
+        colorCloseButton.addEventListener('click', closeColorSettingsMenu);
     </script>
-    
-    
-    
-</body></center>
-</html>
-
-
-
-
-</HTML>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Settings Menu</title>
-</head>
-<body>
-<h1>This is <lb>a <lb>quote </lb><lb>to <lb>waste <lb>your <lb>time <lb>now <lb>get <lb>back <lb>to <lb> clicking</lb></h1>
-<button id="settingsButton">Settings</button>
-
-<div id="settingsMenu" style="display: none; position: absolute; top: 10px; left: 10px; background-color: #fff; border: 1px solid #ccc; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000;">
-    <!-- Settings menu content -->
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Color Buttons</title>
-<style>
-  body {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-  }
-  button {
-    width: 100px;
-    height: 50px;
-    margin: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-  }
-</style>
-</head>
-<body>
-
-<button id="buttonRed" onclick="changeColor('red')">Red</button>
-<button id="buttonGreen" onclick="changeColor('green')">Green</button>
-<button id="buttonBlue" onclick="changeColor('blue')">Blue</button>
-<button id="buttonYellow" onclick="changeColor('yellow')">Yellow</button>
-<button id="buttonMagenta" onclick="changeColor('magenta')">Magenta</button>
-<button id="buttonCyan" onclick="changeColor('cyan')">Cyan</button>
-<button id="buttonOrange" onclick="changeColor('orange')">Orange</button>
-<button id="buttonPurple" onclick="changeColor('purple')">Purple</button>
-<button id="buttonLime" onclick="changeColor('lime')">Lime</button>
-<button id="buttonNavy" onclick="changeColor('navy')">Navy</button>
-<button id="buttonWhite" onclick="changeColor('white')">White</button>
-<button id="buttonGray" onclick="changeColor('gray')">Gray</button>
-
-<script>
-  function changeColor(colorName) {
-    var colors = {
-      'red': '#ff0000',
-      'green': '#00ff00',
-      'blue': '#0000ff',
-      'yellow': '#ffff00',
-      'magenta': '#ff00ff',
-      'cyan': '#00ffff',
-      'orange': '#ffa500',
-      'purple': '#800080',
-      'lime': '#008000',
-      'navy': '#000080',
-      'white': '#ffffff',
-      'gray': '#808080'
-    };
-    document.body.style.backgroundColor = colors[colorName];
-  }
-</script>
-
-
-<style>
-  button {
-    width: 150px;
-    height: 50px;
-    margin: 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-  }
-</style>
-</head>
-<body>
-
-<button id="refreshButton" onclick="refreshPage()">Reset</button>
-
-<script>
-  function refreshPage() {
-    location.reload();
-  }
-</script>
-
-
-
-
-    <button id="closeButton">Close</button>
-</div>
-
-<script>
-    // JavaScript functionality
-    const settingsButton = document.getElementById('settingsButton');
-    const settingsMenu = document.getElementById('settingsMenu');
-    const closeButton = document.getElementById('closeButton');
-
-    // Function to toggle the visibility of the settings menu
-    function toggleSettingsMenu() {
-        settingsMenu.style.display = settingsMenu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Function to close the settings menu
-    function closeSettingsMenu() {
-        settingsMenu.style.display = 'none';
-    }
-
-    // Event listener for the settings button
-    settingsButton.addEventListener('click', toggleSettingsMenu);
-
-    // Event listener for the close button
-    closeButton.addEventListener('click', closeSettingsMenu);
-</script>
-
 </body>
 </html>
+
