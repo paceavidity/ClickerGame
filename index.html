@@ -24,16 +24,104 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
+        #cps {
+            font-size: 24px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="counter">0</div>
     <button id="clickbutton">Click me</button>
+    <div id="cps">Clicks per second: 0</div>
 
     <div id="settingsMenu">
         <h2>Dev Demo</h2>
         <label for="amountInput">Set Increment Amount:</label>
         <input type="number" id="amountInput" placeholder="Enter amount">
+        
+        <label for="cpsInput">Set Auto Clicks Per Second:</label>
+        <input type="range" id="cpsInput" min="0" max="10" step="1">
+        <span id="cpsValue">0</span>
+
+        <button id="resetCounterButton">Reset Counter</button>
+        <button id="doubleIncrementButton">Double Increment</button>
+        <button id="halveIncrementButton">Halve Increment</button>
+        <button id="toggleAutoClickButton">Toggle Auto Click</button>
+        <button id="displayAlertButton">Display Alert</button>
+
+        <button id="incrementByTenButton">Increment by 10</button>
+        <button id="decrementCounterButton">Decrement Counter</button>
+        <button id="setToHundredButton">Set Counter to 100</button>
+        <button id="setBackgroundColorButton">Set Background Color</button>
+        <button id="toggleVisibilityButton">Toggle Visibility</button>
+
+        <button id="incrementByFiftyButton">Increment by 50</button>
+        <button id="resetManualClicksButton">Reset Manual Clicks</button>
+        <button id="setCounterToZeroButton">Set Counter to 0</button>
+        <button id="doubleCounterButton">Double Counter</button>
+        <button id="halveCounterButton">Halve Counter</button>
+
+        <button id="setIncrementToOneButton">Set Increment to 1</button>
+        <button id="addRandomAmountButton">Add Random Amount</button>
+        <button id="setToRandomNumberButton">Set to Random Number</button>
+        <button id="toggleColorModeButton">Toggle Color Mode</button>
+        <button id="incrementByAmountButton">Increment by Amount</button>
+
+        <button id="changeFontSizeButton">Change Font Size</button>
+        <button id="increaseFontSizeButton">Increase Font Size</button>
+        <button id="decreaseFontSizeButton">Decrease Font Size</button>
+        <button id="toggleButtonVisibilityButton">Toggle Button Visibility</button>
+        <button id="setCounterToCustomValueButton">Set Counter to Custom Value</button>
+
+        <button id="changeTextColorButton">Change Text Color</button>
+        <button id="hideTextButton">Hide Text</button>
+        <button id="showTextButton">Show Text</button>
+        <button id="increaseWidthButton">Increase Width</button>
+        <button id="decreaseWidthButton">Decrease Width</button>
+
+        <button id="increaseHeightButton">Increase Height</button>
+        <button id="decreaseHeightButton">Decrease Height</button>
+        <button id="addBorderButton">Add Border</button>
+        <button id="removeBorderButton">Remove Border</button>
+        <button id="rotateCounterButton">Rotate Counter</button>
+
+        <button id="flipCounterButton">Flip Counter</button>
+        <button id="blurBackgroundButton">Blur Background</button>
+        <button id="unblurBackgroundButton">Unblur Background</button>
+        <button id="addShadowButton">Add Shadow</button>
+        <button id="removeShadowButton">Remove Shadow</button>
+
+        <button id="makeUppercaseButton">Make Uppercase</button>
+        <button id="makeLowercaseButton">Make Lowercase</button>
+        <button id="toggleItalicButton">Toggle Italic</button>
+        <button id="toggleBoldButton">Toggle Bold</button>
+        <button id="centerTextButton">Center Text</button>
+
+        <button id="leftAlignTextButton">Left Align Text</button>
+        <button id="rightAlignTextButton">Right Align Text</button>
+        <button id="increaseLineHeightButton">Increase Line Height</button>
+        <button id="decreaseLineHeightButton">Decrease Line Height</button>
+        <button id="setLetterSpacingButton">Set Letter Spacing</button>
+
+        <button id="increaseLetterSpacingButton">Increase Letter Spacing</button>
+        <button id="decreaseLetterSpacingButton">Decrease Letter Spacing</button>
+        <button id="toggleVisibilityCounterButton">Toggle Visibility Counter</button>
+        <button id="toggleVisibilityCPSButton">Toggle Visibility CPS</button>
+        <button id="toggleBackgroundImageButton">Toggle Background Image</button>
+
+        <button id="changeToRandomColorButton">Change to Random Color</button>
+        <button id="changeToGradientButton">Change to Gradient</button>
+        <button id="setCustomFontButton">Set Custom Font</button>
+        <button id="resetFontButton">Reset Font</button>
+        <button id="toggleUnderlineButton">Toggle Underline</button>
+
+        <button id="toggleLineThroughButton">Toggle Line-Through</button>
+        <button id="toggleOverlineButton">Toggle Overline</button>
+        <button id="addMarginButton">Add Margin</button>
+        <button id="reduceMarginButton">Reduce Margin</button>
+        <button id="toggleWordWrapButton">Toggle Word Wrap</button>
+
         <button id="closeButton">Close</button>
     </div>
 
@@ -44,12 +132,60 @@
     <script>
         var counterElement = document.getElementById("counter");
         var button = document.getElementById("clickbutton");
+        var cpsElement = document.getElementById("cps");
         var count = 0;
         var incrementAmount = 1;
+        var manualClicks = 0;
+        var clickTimes = [];
+        var autoClickInterval;
+        var autoCPS = 0;
+        var isColorModeLight = true;
 
         function incrementCounter() {
             count += incrementAmount;
             counterElement.textContent = count;
+            manualClicks++;
+
+            var now = Date.now();
+            clickTimes.push(now);
+            clickTimes = clickTimes.filter(time => now - time < 1000);
+
+            cpsElement.textContent = `Clicks per second: ${clickTimes.length}`;
+
+            if (manualClicks >= 500 && !autoClickInterval) {
+                startAutoClick();
+            }
+        }
+
+        function startAutoClick() {
+            autoClickInterval = setInterval(() => {
+                count += incrementAmount;
+                counterElement.textContent = count;
+            }, 1000 / autoCPS);
+        }
+
+        function stopAutoClick() {
+            clearInterval(autoClickInterval);
+            autoClickInterval = null;
+        }
+
+        function toggleAutoClick() {
+            if (autoClickInterval) {
+                stopAutoClick();
+            } else {
+                startAutoClick();
+            }
+        }
+
+        function setAutoCPS(value) {
+            autoCPS = value;
+            document.getElementById("cpsValue").textContent = autoCPS;
+            if (autoClickInterval) {
+                stopAutoClick();
+                if (autoCPS > 0) {
+                    startAutoClick();
+                }
+            }
         }
 
         button.addEventListener("click", incrementCounter);
@@ -71,17 +207,405 @@
 
         function setIncrementAmount() {
             var amountInput = document.getElementById("amountInput");
-            var newAmount = parseInt(amountInput.value, 10);
+            var newAmount = parseInt(amountInput.value, 50);
             if (!isNaN(newAmount)) {
                 incrementAmount = newAmount;
             }
         }
 
-        const amountInput = document.getElementById("amountInput");
-        amountInput.addEventListener("change", setIncrementAmount);
+        function resetCounter() {
+            count = 0;
+            counterElement.textContent = count;
+        }
 
-        const closeButton = document.getElementById('closeButton');
-        closeButton.addEventListener('click', function() {
+        function doubleIncrementAmount() {
+            incrementAmount *= 2;
+        }
+
+        function halveIncrementAmount() {
+            incrementAmount = Math.max(1, Math.floor(incrementAmount / 2));
+        }
+
+        function displayAlert() {
+            alert("This is an alert!");
+        }
+
+        function incrementByTen() {
+            count += 10;
+            counterElement.textContent = count;
+        }
+
+        function decrementCounter() {
+            count -= incrementAmount;
+            counterElement.textContent = count;
+        }
+
+        function setCounterToHundred() {
+            count = 100;
+            counterElement.textContent = count;
+        }
+
+        function setBackgroundColor() {
+            var color = prompt("Enter a background color:");
+            if (color) {
+                document.body.style.backgroundColor = color;
+            }
+        }
+
+        function toggleVisibility() {
+            counterElement.style.display = counterElement.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function incrementByFifty() {
+            count += 50;
+            counterElement.textContent = count;
+        }
+
+        function resetManualClicks() {
+            manualClicks = 0;
+        }
+
+        function setCounterToZero() {
+            count = 0;
+            counterElement.textContent = count;
+        }
+
+        function doubleCounter() {
+            count *= 2;
+            counterElement.textContent = count;
+        }
+
+        function halveCounter() {
+            count = Math.floor(count / 2);
+            counterElement.textContent = count;
+        }
+
+        function setIncrementToOne() {
+            incrementAmount = 1;
+        }
+
+        function addRandomAmount() {
+            var randomAmount = Math.floor(Math.random() * 100);
+            count += randomAmount;
+            counterElement.textContent = count;
+        }
+
+        function setToRandomNumber() {
+            count = Math.floor(Math.random() * 1000);
+            counterElement.textContent = count;
+        }
+
+        function toggleColorMode() {
+            if (isColorModeLight) {
+                document.body.style.backgroundColor = '#000';
+                document.body.style.color = '#fff';
+            } else {
+                document.body.style.backgroundColor = '#fff';
+                document.body.style.color = '#000';
+            }
+            isColorModeLight = !isColorModeLight;
+        }
+
+        function incrementByAmount() {
+            var amount = parseInt(prompt("Enter an amount to increment by:"), 10);
+            if (!isNaN(amount)) {
+                count += amount;
+                counterElement.textContent = count;
+            }
+        }
+
+        function changeFontSize() {
+            var size = prompt("Enter a font size (px):");
+            if (size && !isNaN(size)) {
+                counterElement.style.fontSize = size + 'px';
+            }
+        }
+
+        function increaseFontSize() {
+            var currentSize = parseInt(window.getComputedStyle(counterElement).fontSize);
+            counterElement.style.fontSize = (currentSize + 10) + 'px';
+        }
+
+        function decreaseFontSize() {
+            var currentSize = parseInt(window.getComputedStyle(counterElement).fontSize);
+            counterElement.style.fontSize = Math.max(10, currentSize - 10) + 'px';
+        }
+
+        function toggleButtonVisibility() {
+            button.style.display = button.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function setCounterToCustomValue() {
+            var customValue = prompt("Enter a custom value for the counter:");
+            if (customValue !== null && !isNaN(customValue)) {
+                count = parseInt(customValue, 10);
+                counterElement.textContent = count;
+            }
+        }
+
+        function changeTextColor() {
+            var color = prompt("Enter a text color:");
+            if (color) {
+                counterElement.style.color = color;
+            }
+        }
+
+        function hideText() {
+            counterElement.style.visibility = 'hidden';
+        }
+
+        function showText() {
+            counterElement.style.visibility = 'visible';
+        }
+
+        function increaseWidth() {
+            counterElement.style.width = (counterElement.offsetWidth + 20) + 'px';
+        }
+
+        function decreaseWidth() {
+            counterElement.style.width = (Math.max(20, counterElement.offsetWidth - 20)) + 'px';
+        }
+
+        function increaseHeight() {
+            counterElement.style.height = (counterElement.offsetHeight + 20) + 'px';
+        }
+
+        function decreaseHeight() {
+            counterElement.style.height = (Math.max(20, counterElement.offsetHeight - 20)) + 'px';
+        }
+
+        function addBorder() {
+            counterElement.style.border = '2px solid black';
+        }
+
+        function removeBorder() {
+            counterElement.style.border = 'none';
+        }
+
+        function rotateCounter() {
+            counterElement.style.transform = 'rotate(45deg)';
+        }
+
+        function flipCounter() {
+            counterElement.style.transform = 'scale(-1, 1)';
+        }
+
+        function blurBackground() {
+            document.body.style.filter = 'blur(5px)';
+        }
+
+        function unblurBackground() {
+            document.body.style.filter = 'none';
+        }
+
+        function addShadow() {
+            counterElement.style.boxShadow = '5px 5px 15px rgba(0,0,0,0.3)';
+        }
+
+        function removeShadow() {
+            counterElement.style.boxShadow = 'none';
+        }
+
+        function makeUppercase() {
+            counterElement.style.textTransform = 'uppercase';
+        }
+
+        function makeLowercase() {
+            counterElement.style.textTransform = 'lowercase';
+        }
+
+        function toggleItalic() {
+            counterElement.style.fontStyle = counterElement.style.fontStyle === 'italic' ? 'normal' : 'italic';
+        }
+
+        function toggleBold() {
+            counterElement.style.fontWeight = counterElement.style.fontWeight === 'bold' ? 'normal' : 'bold';
+        }
+
+        function centerText() {
+            counterElement.style.textAlign = 'center';
+        }
+
+        function leftAlignText() {
+            counterElement.style.textAlign = 'left';
+        }
+
+        function rightAlignText() {
+            counterElement.style.textAlign = 'right';
+        }
+
+        function increaseLineHeight() {
+            var currentLineHeight = parseFloat(window.getComputedStyle(counterElement).lineHeight);
+            counterElement.style.lineHeight = (currentLineHeight + 0.2).toString();
+        }
+
+        function decreaseLineHeight() {
+            var currentLineHeight = parseFloat(window.getComputedStyle(counterElement).lineHeight);
+            counterElement.style.lineHeight = (currentLineHeight - 0.2).toString();
+        }
+
+        function setLetterSpacing() {
+            var spacing = prompt("Enter letter spacing (px):");
+            if (spacing && !isNaN(spacing)) {
+                counterElement.style.letterSpacing = spacing + 'px';
+            }
+        }
+
+        function increaseLetterSpacing() {
+            var currentSpacing = parseFloat(window.getComputedStyle(counterElement).letterSpacing);
+            counterElement.style.letterSpacing = (currentSpacing + 1).toString() + 'px';
+        }
+
+        function decreaseLetterSpacing() {
+            var currentSpacing = parseFloat(window.getComputedStyle(counterElement).letterSpacing);
+            counterElement.style.letterSpacing = (currentSpacing - 1).toString() + 'px';
+        }
+
+        function toggleVisibilityCounter() {
+            counterElement.style.visibility = counterElement.style.visibility === 'hidden' ? 'visible' : 'hidden';
+        }
+
+        function toggleVisibilityCPS() {
+            cpsElement.style.visibility = cpsElement.style.visibility === 'hidden' ? 'visible' : 'hidden';
+        }
+
+        function toggleBackgroundImage() {
+            if (document.body.style.backgroundImage) {
+                document.body.style.backgroundImage = '';
+            } else {
+                document.body.style.backgroundImage = 'url("https://via.placeholder.com/150")';
+            }
+        }
+
+        function changeToRandomColor() {
+            var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.backgroundColor = randomColor;
+        }
+
+        function changeToGradient() {
+            document.body.style.backgroundImage = 'linear-gradient(to right, red, yellow, green, cyan, blue, violet)';
+        }
+
+        function setCustomFont() {
+            var font = prompt("Enter a font family:");
+            if (font) {
+                counterElement.style.fontFamily = font;
+            }
+        }
+
+        function resetFont() {
+            counterElement.style.fontFamily = '';
+        }
+
+        function toggleUnderline() {
+            counterElement.style.textDecoration = counterElement.style.textDecoration === 'underline' ? 'none' : 'underline';
+        }
+
+        function toggleLineThrough() {
+            counterElement.style.textDecoration = counterElement.style.textDecoration === 'line-through' ? 'none' : 'line-through';
+        }
+
+        function toggleOverline() {
+            counterElement.style.textDecoration = counterElement.style.textDecoration === 'overline' ? 'none' : 'overline';
+        }
+
+        function addMargin() {
+            var currentMargin = parseInt(window.getComputedStyle(counterElement).margin);
+            counterElement.style.margin = (currentMargin + 10) + 'px';
+        }
+
+        function reduceMargin() {
+            var currentMargin = parseInt(window.getComputedStyle(counterElement).margin);
+            counterElement.style.margin = (Math.max(0, currentMargin - 10)) + 'px';
+        }
+
+        function toggleWordWrap() {
+            counterElement.style.wordWrap = counterElement.style.wordWrap === 'break-word' ? 'normal' : 'break-word';
+        }
+
+        document.getElementById("amountInput").addEventListener("change", setIncrementAmount);
+        document.getElementById("cpsInput").addEventListener("input", function() {
+            setAutoCPS(this.value);
+        });
+        document.getElementById("resetCounterButton").addEventListener("click", resetCounter);
+        document.getElementById("doubleIncrementButton").addEventListener("click", doubleIncrementAmount);
+        document.getElementById("halveIncrementButton").addEventListener("click", halveIncrementAmount);
+        document.getElementById("toggleAutoClickButton").addEventListener("click", toggleAutoClick);
+        document.getElementById("displayAlertButton").addEventListener("click", displayAlert);
+
+        document.getElementById("incrementByTenButton").addEventListener("click", incrementByTen);
+        document.getElementById("decrementCounterButton").addEventListener("click", decrementCounter);
+        document.getElementById("setToHundredButton").addEventListener("click", setCounterToHundred);
+        document.getElementById("setBackgroundColorButton").addEventListener("click", setBackgroundColor);
+        document.getElementById("toggleVisibilityButton").addEventListener("click", toggleVisibility);
+
+        document.getElementById("incrementByFiftyButton").addEventListener("click", incrementByFifty);
+        document.getElementById("resetManualClicksButton").addEventListener("click", resetManualClicks);
+        document.getElementById("setCounterToZeroButton").addEventListener("click", setCounterToZero);
+        document.getElementById("doubleCounterButton").addEventListener("click", doubleCounter);
+        document.getElementById("halveCounterButton").addEventListener("click", halveCounter);
+
+        document.getElementById("setIncrementToOneButton").addEventListener("click", setIncrementToOne);
+        document.getElementById("addRandomAmountButton").addEventListener("click", addRandomAmount);
+        document.getElementById("setToRandomNumberButton").addEventListener("click", setToRandomNumber);
+        document.getElementById("toggleColorModeButton").addEventListener("click", toggleColorMode);
+        document.getElementById("incrementByAmountButton").addEventListener("click", incrementByAmount);
+
+        document.getElementById("changeFontSizeButton").addEventListener("click", changeFontSize);
+        document.getElementById("increaseFontSizeButton").addEventListener("click", increaseFontSize);
+        document.getElementById("decreaseFontSizeButton").addEventListener("click", decreaseFontSize);
+        document.getElementById("toggleButtonVisibilityButton").addEventListener("click", toggleButtonVisibility);
+        document.getElementById("setCounterToCustomValueButton").addEventListener("click", setCounterToCustomValue);
+
+        document.getElementById("changeTextColorButton").addEventListener("click", changeTextColor);
+        document.getElementById("hideTextButton").addEventListener("click", hideText);
+        document.getElementById("showTextButton").addEventListener("click", showText);
+        document.getElementById("increaseWidthButton").addEventListener("click", increaseWidth);
+        document.getElementById("decreaseWidthButton").addEventListener("click", decreaseWidth);
+
+        document.getElementById("increaseHeightButton").addEventListener("click", increaseHeight);
+        document.getElementById("decreaseHeightButton").addEventListener("click", decreaseHeight);
+        document.getElementById("addBorderButton").addEventListener("click", addBorder);
+        document.getElementById("removeBorderButton").addEventListener("click", removeBorder);
+        document.getElementById("rotateCounterButton").addEventListener("click", rotateCounter);
+
+        document.getElementById("flipCounterButton").addEventListener("click", flipCounter);
+        document.getElementById("blurBackgroundButton").addEventListener("click", blurBackground);
+        document.getElementById("unblurBackgroundButton").addEventListener("click", unblurBackground);
+        document.getElementById("addShadowButton").addEventListener("click", addShadow);
+        document.getElementById("removeShadowButton").addEventListener("click", removeShadow);
+
+        document.getElementById("makeUppercaseButton").addEventListener("click", makeUppercase);
+        document.getElementById("makeLowercaseButton").addEventListener("click", makeLowercase);
+        document.getElementById("toggleItalicButton").addEventListener("click", toggleItalic);
+        document.getElementById("toggleBoldButton").addEventListener("click", toggleBold);
+        document.getElementById("centerTextButton").addEventListener("click", centerText);
+
+        document.getElementById("leftAlignTextButton").addEventListener("click", leftAlignText);
+        document.getElementById("rightAlignTextButton").addEventListener("click", rightAlignText);
+        document.getElementById("increaseLineHeightButton").addEventListener("click", increaseLineHeight);
+        document.getElementById("decreaseLineHeightButton").addEventListener("click", decreaseLineHeight);
+        document.getElementById("setLetterSpacingButton").addEventListener("click", setLetterSpacing);
+
+        document.getElementById("increaseLetterSpacingButton").addEventListener("click", increaseLetterSpacing);
+        document.getElementById("decreaseLetterSpacingButton").addEventListener("click", decreaseLetterSpacing);
+        document.getElementById("toggleVisibilityCounterButton").addEventListener("click", toggleVisibilityCounter);
+        document.getElementById("toggleVisibilityCPSButton").addEventListener("click", toggleVisibilityCPS);
+        document.getElementById("toggleBackgroundImageButton").addEventListener("click", toggleBackgroundImage);
+
+        document.getElementById("changeToRandomColorButton").addEventListener("click", changeToRandomColor);
+        document.getElementById("changeToGradientButton").addEventListener("click", changeToGradient);
+        document.getElementById("setCustomFontButton").addEventListener("click", setCustomFont);
+        document.getElementById("resetFontButton").addEventListener("click", resetFont);
+        document.getElementById("toggleUnderlineButton").addEventListener("click", toggleUnderline);
+
+        document.getElementById("toggleLineThroughButton").addEventListener("click", toggleLineThrough);
+        document.getElementById("toggleOverlineButton").addEventListener("click", toggleOverline);
+        document.getElementById("addMarginButton").addEventListener("click", addMargin);
+        document.getElementById("reduceMarginButton").addEventListener("click", reduceMargin);
+        document.getElementById("toggleWordWrapButton").addEventListener("click", toggleWordWrap);
+
+        document.getElementById("closeButton").addEventListener("click", function() {
             document.getElementById("settingsMenu").style.display = 'none';
         });
     </script>
@@ -146,4 +670,3 @@
     </script>
 </body>
 </html>
-
